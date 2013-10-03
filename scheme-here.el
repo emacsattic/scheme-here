@@ -7,7 +7,7 @@
 ;; Maintainer: Jude Chao <kaihaosw@gmail.com>
 ;; Credit: https://github.com/vyzo
 ;; URL: https://github.com/judevc/scheme-here
-;; EmacsWiki: scheme-here.el
+;; EmacsWiki: RunSchemeHere
 ;; Keywords: scheme
 ;;
 ;; This program is free software; you can redistribute it and/or
