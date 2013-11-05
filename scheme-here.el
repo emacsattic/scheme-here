@@ -1,13 +1,13 @@
 ;;; scheme-here.el --- cmuscheme extension for multiple inferior processes
 ;;
 ;; Copyright (C) 2007 Dimitris Vyzovitis
-;; Copyright (C) 2013 Jude Chao
+;; Copyright (C) 2013 Zhao Wei
 ;;
 ;; Author: Dimitris Vyzovitis <vyzo@media.mit.edu>
-;; Maintainer: Jude Chao <kaihaosw@gmail.com>
+;; Maintainer: Zhao Wei <kaihaosw@gmail.com>
 ;; Credit: https://github.com/vyzo
-;; URL: https://github.com/judevc/scheme-here
-;; Version: 0.3
+;; URL: https://github.com/zhaov/scheme-here
+;; Version: 0.6
 ;; Keywords: scheme
 ;; EmacsWiki: RunSchemeHere
 ;;
