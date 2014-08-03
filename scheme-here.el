@@ -1,7 +1,7 @@
 ;;; scheme-here.el --- cmuscheme extension for multiple inferior processes
 ;;
-;; Copyright (C) 2007 Dimitris Vyzovitis
-;; Copyright (C) 2013 Wei Zhao
+;; Copyright (C) 2007, 2008 Dimitris Vyzovitis
+;; Copyright (C) 2013, 2014 Wei Zhao
 ;;
 ;; Author: Dimitris Vyzovitis <vyzo@media.mit.edu>
 ;; Maintainer: Wei Zhao <kaihaosw@gmail.com>
@@ -26,7 +26,7 @@
 ;; inferior scheme processes.
 ;;
 ;;; Change Log:
-;; Aug 03 2014: add scheme-here-trace-procedure scheme-here-expand-current-form
+;; Aug 03 2014: add scheme-here-trace-procedure scheme-here-expand-current-form scheme-here-eval-buffer
 ;; Oct 04 2013: add scheme-here-load-file
 ;; Dec 08 2008: updated headers, provide 'scheme-here
 ;; Mar 12 2007: initial version
@@ -89,6 +89,11 @@
       (beginning-of-defun)
       (scheme-here-send-region (point) end))))
 
+(defun scheme-here-eval-buffer ()
+  "Send the current buffer to the buffer-local scheme process."
+  (interactive)
+  (scheme-here-send-region (point-min) (point-max)))
+
 (defun scheme-here-send-region/switch (start end)
   "Send the current region to the buffer-local scheme process.
    Then switch to its buffer."
@@ -111,7 +116,7 @@
   (switch-to-scheme-here))
 
 (defun scheme-here-load-file (file-name)
-  "Load a Scheme file into the inferior Scheme process."
+  "Load a Scheme file into the buffer-local scheme process."
   (interactive (comint-get-source "Load Scheme file: " scheme-prev-l/c-dir/file
                                   scheme-source-modes t))
   (comint-check-source file-name)
@@ -123,7 +128,7 @@
   (switch-to-scheme-here))
 
 (defun scheme-here-trace-procedure (proc &optional untrace)
-  "Trace procedure PROC in the inferior Scheme process.
+  "Trace procedure PROC in the buffer-local scheme process.
 With a prefix argument switch off tracing of procedure PROC."
   (interactive
    (list (let ((current (symbol-at-point))
@@ -141,7 +146,7 @@ With a prefix argument switch off tracing of procedure PROC."
   (comint-send-string (scheme-here-proc) "\n"))
 
 (defun scheme-here-expand-current-form ()
-  "Macro-expand the form at point in the inferior Scheme process."
+  "Macro-expand the form at point in the buffer-local scheme process."
   (interactive)
   (let ((current-form (scheme-form-at-point)))
     (if current-form
@@ -157,6 +162,7 @@ With a prefix argument switch off tracing of procedure PROC."
   (define-key scheme-mode-map "\C-x\M-se" 'scheme-here-send-sexp)
   (define-key scheme-mode-map "\C-x\M-sr" 'scheme-here-send-region)
   (define-key scheme-mode-map "\C-x\M-sd" 'scheme-here-send-def)
+  (define-key scheme-mode-map "\C-x\M-sb" 'scheme-here-eval-buffer)
   (define-key scheme-mode-map "\C-x\M-st" 'scheme-here-trace-procedure)
   (define-key scheme-mode-map "\C-x\M-sx" 'scheme-here-expand-current-form)
   (define-key scheme-mode-map "\C-x\M-s\M-e" 'scheme-here-send-sexp/switch)
