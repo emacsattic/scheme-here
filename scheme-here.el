@@ -26,7 +26,7 @@
 ;; inferior scheme processes.
 ;;
 ;;; Change Log:
-;; Aug 02 2014: add scheme-here-trace-procedure
+;; Aug 03 2014: add scheme-here-trace-procedure scheme-here-expand-current-form
 ;; Oct 04 2013: add scheme-here-load-file
 ;; Dec 08 2008: updated headers, provide 'scheme-here
 ;; Mar 12 2007: initial version
@@ -140,11 +140,25 @@ With a prefix argument switch off tracing of procedure PROC."
                        proc))
   (comint-send-string (scheme-here-proc) "\n"))
 
+(defun scheme-here-expand-current-form ()
+  "Macro-expand the form at point in the inferior Scheme process."
+  (interactive)
+  (let ((current-form (scheme-form-at-point)))
+    (if current-form
+        (progn
+          (comint-send-string (scheme-here-proc)
+                              (format
+                               scheme-macro-expand-command
+                               current-form))
+          (comint-send-string (scheme-here-proc) "\n"))
+      (error "Not at a form"))))
+
 (defun scheme-here-hook ()
   (define-key scheme-mode-map "\C-x\M-se" 'scheme-here-send-sexp)
   (define-key scheme-mode-map "\C-x\M-sr" 'scheme-here-send-region)
   (define-key scheme-mode-map "\C-x\M-sd" 'scheme-here-send-def)
   (define-key scheme-mode-map "\C-x\M-st" 'scheme-here-trace-procedure)
+  (define-key scheme-mode-map "\C-x\M-sx" 'scheme-here-expand-current-form)
   (define-key scheme-mode-map "\C-x\M-s\M-e" 'scheme-here-send-sexp/switch)
   (define-key scheme-mode-map "\C-x\M-s\M-r" 'scheme-here-send-region/switch)
   (define-key scheme-mode-map "\C-x\M-s\M-d" 'scheme-here-send-def/switch)
