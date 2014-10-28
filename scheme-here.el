@@ -7,7 +7,7 @@
 ;; Maintainer: Wei Zhao <kaihaosw@gmail.com>
 ;; Credit: https://github.com/vyzo
 ;; URL: https://github.com/kaihaosw/scheme-here
-;; Version: 0.7
+;; Version: 0.8
 ;; Keywords: scheme
 ;; EmacsWiki: RunSchemeHere
 ;;
@@ -26,6 +26,7 @@
 ;; inferior scheme processes.
 ;;
 ;;; Change Log:
+;; Oct 28 2014: add "cmd" arg for run-scheme-here
 ;; Aug 03 2014: add scheme-here-trace-procedure scheme-here-expand-current-form scheme-here-eval-buffer
 ;; Oct 04 2013: add scheme-here-load-file
 ;; Dec 08 2008: updated headers, provide 'scheme-here
@@ -37,16 +38,18 @@
 (require 'scheme)
 (require 'cmuscheme)
 
-(defun run-scheme-here ()
+(defun run-scheme-here (cmd)
   "Run a new scheme process at the directory of the current buffer.
    If a process is already running, switch to its buffer."
-  (interactive)
+  (interactive (list (if current-prefix-arg
+			 (read-string "Run Scheme: " scheme-program-name)
+                       scheme-program-name)))
   (let* ((proc (format "scheme: %s" default-directory))
          (buf (format "*%s*" proc)))
     (unless (comint-check-proc buf)
-      (let ((cmd (split-string scheme-program-name)))
+      (let ((cmdlist (split-string cmd)))
         (set-buffer
-         (apply 'make-comint-in-buffer proc buf (car cmd) nil (cdr cmd)))
+         (apply 'make-comint-in-buffer proc buf (car cmdlist) nil (cdr cmdlist)))
         (inferior-scheme-mode)))
     (pop-to-buffer buf)))
 
