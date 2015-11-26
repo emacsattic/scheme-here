@@ -1,7 +1,7 @@
 scheme-here
 ===========
 
-Scheme-here is a cmuscheme extension for multiple inferior processes. It provides different inferior processes for different bufferes.
+Scheme-here is a cmuscheme extension for multiple inferior processes. It provides different inferior processes for different buffers.
 
 Installation
 ------------
@@ -19,7 +19,7 @@ Add the following to your `init.el`:
 Definition
 ----------
 
-Scheme-here provides the following convinent definations:
+Scheme-here provides the following convenient definitions:
 
 `run-scheme-here`  
 `switch-to-scheme-here`  
